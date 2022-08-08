@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MathImage</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+<body class=" bg-info">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center mt-1">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" id="btn5x5">5x5</button>
+                    <button type="button" class="btn btn-default" id="btn8x8">8x8</button>
+                    <button type="button" class="btn btn-default" id="btn10x10">10x10</button>
+                    <span>&emsp;&emsp;</span>
+                    <button type="button" class="btn btn-secondary" id="custom"><i class="fa fa-cog"></i></button>
+                    <button type="button" class="btn btn-secondary" id="pauseBtn"><i class="fa fa-pause"></i></button>
+                     <button type="button" class="btn btn-danger " id="resetBtn"><i class="fa fa-repeat"></i></button>
+                    
+                </span>
+                <span>&emsp;&emsp;</span>
+                <i class="fa fa-clock-o"></i><span id="stopwatch">Spend Times: 0:0:0</span>
+            </div>
+        </div>
+        <hr class="bg-white">
+        <div class="row">
+
+            <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11"
+                style="-webkit-user-select:none;-moz-user-select:none;-o-user-select:none;user-select:none;margin:auto;"
+                id="IMdiv">
+                <table class="table table-hover mr-0 m-auto bg-white" border="1"
+                    style="table-layout: fixed;word-break: break-all;height:600px;width: 600px" id="MItable">
+                    <div class="row bg-dark h-100 w-100 border border-white" style="z-index: 5;position: absolute;" id="start">
+                        <div class="col align-self-center"><p class="text-white text-center display-1"><i class="fa fa-play fa-10x"></i>Start!</p></div>
+                    </div>
+
+                    <thead id="MIhead">
+
+                    </thead>
+                    <tbody id="MIbody">
+
+                    </tbody>
+
+                </table>
+            </div>
+            
+        </div>
+        
+        <hr class="bg-white">
+        <div class="row">
+            <div class="col-6 center" style="margin: auto;">
+                <p class="text-white">
+                數織是一種邏輯遊戲，以猜謎的方式繪畫黑白點陣圖。在一個網格中，每一行和列都有一組數，玩家需根據它們來填滿或留空格子，最後就可以由此得出一幅圖畫。例如，「4 8 3」的意思就是指該行或列上有三條獨立的線，分別佔了4、8和3格，而每條線最少要由一個空格分開。傳統上，玩家是以黑色填滿格子，和以「×」號標記一定不需要填充的格子。
+            </p>
+            <p class="text-white">左鍵標記格子</p>
+            <p class="text-white">右鍵標記「Ｘ」</p>
+            <p class="text-white">長按左鍵拖動連續標記格子</p>
+            <p class="text-white">長按右鍵拖動連續標記「Ｘ」</p>
+            </div>
+            </div>
+
+
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-pass" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Congratulations</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6 id="spendTimes"></h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="btnNext">NEXT<i
+                            class="fa fa-long-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="model-custom" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">please input column & row</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="">column</label>
+                            <input type="text" name="" id="colText" class="form-control" placeholder=""
+                                aria-describedby="helpId" onkeyup="value=value.replace(/[^\d.]/g,'')">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="">row</label>
+                            <input type="text" name="" id="rowText" class="form-control" placeholder=""
+                                aria-describedby="helpId" onkeyup="value=value.replace(/[^\d.]/g,'')">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btnCustom">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        var col = 5;
+        var row = 5;
+        $(function () {
+            document.oncontextmenu = function (e) {
+                return false;
+            }
+            MathImage(col, row)
+        });
+        $('#btn5x5').click(function () {
+            col = 5;
+            row = 5;
+            MathImage(col, row)
+        })
+        $('#btn8x8').click(function () {
+            col = 8;
+            row = 8;
+            MathImage(col, row)
+        })
+        $('#btn10x10').click(function () {
+            col = 10;
+            row = 10;
+            MathImage(col, row)
+        })
+        $('#btnNext').click(function () {
+            initTime=0
+            MathImage(col, row)
+            $('#modal-pass').modal('hide')
+        })
+        $('#custom').click(function () {
+            $('#model-custom').modal('show')
+        })
+        $('#btnCustom').click(function () {
+            col = parseInt($('#colText').val())
+            row = parseInt($('#rowText').val())
+            if (col > 20 || row > 20 || col < 0 || row < 0 || isNaN(row) || isNaN(col)) {
+                alert('Please input the number between 1 and 20!')
+            } else {
+                MathImage(col, row)
+                $('#model-custom').modal('hide')
+            }
+        })
+        $('#resetBtn').click(function () {
+            $('#MIbody td').removeClass('bg-dark')
+            $('#MIbody td').children('i').addClass('d-none')
+            $('#MIhead tr').children('th').removeClass('bg-secondary')
+            $('#MIbody tr').children('th').removeClass('bg-secondary')
+            initArray = []
+            for (var i = 0; i < col * row; i++) {
+                initArray.push(0)
+            }
+        })
+        
+        var initTime = 0;
+        var pause=false;
+        function Stopwatch() {
+            if(!pause){
+                initTime++
+            }
+            var H = Math.floor(initTime / 3600)
+            var M = Math.floor(Math.floor(initTime % 3600) / 60)
+            var S = initTime % 60
+            $('#stopwatch').html('Spend Times:' + H + ':' + M + ':' + S)
+            //document.getElementById('stopwatch').innerHTML='Spend Times:' + H + '時' + M + '分' + S + '秒'
+        }
+        
+        $('#start').click(function(){
+            $('#start').hide()
+            if(!pause){
+                TimeInterval=window.setInterval(Stopwatch, 1000);
+            }
+            pause=false;
+        })
+        $('#pauseBtn').click(function(){
+            $('#start').show()
+            pause=true;
+        })
+        //create return function for get Array
+        //get col thAnswer
+        function ColThAnswer(array, col, row) {
+            var colThAnswer = []
+
+            for (var i = 0; i < col; i++) {
+                colThAnswer[i] = new Array
+                var times = 0
+                for (var j = 0; j < row; j++) {
+                    if (array[i + j * col] == 1) {
+                        times++
+                    } else {
+                        if (times != 0) {
+                            colThAnswer[i].push(times)
+                            times = 0
+                        }
+                    }
+                    if (j == row - 1 && times != 0) {
+                        colThAnswer[i].push(times)
+                        times = 0
+                    }
+                }
+            }
+            return colThAnswer
+        }
+        //get row thAnswer
+        function RowThAnswer(array, col, row) {
+            var rowThAnswer = []
+
+            for (var i = 0; i < row; i++) {
+                rowThAnswer[i] = new Array
+                var times = 0
+                for (var j = 0; j < col; j++) {
+                    if (array[j + i * col] == 1) {
+                        times++
+                    } else {
+                        if (times != 0) {
+                            rowThAnswer[i].push(times)
+                            times = 0
+                        }
+                    }
+                    if (j == col - 1 && times != 0) {
+                        rowThAnswer[i].push(times)
+                        times = 0
+                    }
+
+                }
+            }
+            return rowThAnswer
+        }
+        var TimeInterval;
+        function MathImage(col, row) {
+            $('#start').show()
+            console.log(TimeInterval)
+            $('#stopwatch').html('Spend Times:0:0:0')
+            clearInterval(TimeInterval)
+            console.log(TimeInterval)
+            initTime = 0
+            
+            //set Array
+            var answerArray = []
+            var initArray = []
+            var rememberArray=[]
+            for (var i = 0; i < col * row; i++) {
+                answerArray.push(Math.floor(Math.random() * 2))
+                initArray.push(0)
+            }
+            //get row thAnswer
+            var rowThAnswer = RowThAnswer(answerArray, col, row)
+            //get col thAnswer
+            var colThAnswer = ColThAnswer(answerArray, col, row)
+            //set thead
+
+            $('#MIhead').children().remove()
+            $('#MIhead').append('<tr><th style="height:100px;width:100px;"></th></tr>')
+            for (var i = 0; i < col; i++) {
+                $('#MIhead').children('tr').append('<th scope="col" class="text-center"></th>')
+                if (colThAnswer[i].length > 1) {
+                    for (var j in colThAnswer[i]) {
+                        $('#MIhead tr').children('th').eq(i + 1).append('<span>' + colThAnswer[i][j] + '</span><br/>')
+                    }
+                } else if (colThAnswer[i].length == 0) {
+                    $('#MIhead tr').children('th').eq(i + 1).append('<span>0</span>')
+                } else {
+                    $('#MIhead tr').children('th').eq(i + 1).append('<span>' + colThAnswer[i] + '</span>')
+                }
+            }
+            //set tbody
+            $('#MIbody').children().remove()
+            for (var i = 0; i < row; i++) {
+                $('#MIbody').append('<tr><th scope="row" class="text-right p-0"></th></tr>')
+
+                if (rowThAnswer[i].length > 1) {
+                    for (var x in rowThAnswer[i]) {
+                        $('#MIbody tr').eq(i).children('th').append('<span>' + rowThAnswer[i][x] + ' </span>')
+                    }
+                } else if (rowThAnswer[i].length == 0) {
+                    $('#MIbody tr').eq(i).children('th').append('<span>0</span>')
+                } else {
+                    $('#MIbody tr').eq(i).children('th').append('<span>' + rowThAnswer[i] + '<span>')
+                }
+
+
+                for (var j = 0; j < col; j++) {
+                    $('#MIbody').children('tr').eq(i).append('<td class="text-center p-0"><i class="fa fa-times p-0 m-0 d-none"></i></td>')
+
+                }
+            }
+            $('#MIbody tr th').css('height', (600 - $('#MIhead').height()) / row + 'px')
+            $('#MIbody tr td').css('font-size', $('#MIbody').height() / row / 2 + 'px')
+            //mouse event
+            
+            $('#MIbody td').mousedown(function (e) {
+                if (e.which == 1) {
+                    if ($(this).children('i').hasClass('d-none')) {
+                        $(this).toggleClass('bg-dark')
+                    }
+
+                    if ($(this).hasClass('bg-dark')) {
+                        $('#MIbody td').bind('mousemove', function () {
+                            if ($(this).children('i').hasClass('d-none')) {
+                                $(this).addClass('bg-dark')
+                            }
+                        })
+                    } else {
+                        $('#MIbody td').bind('mousemove', function () {
+                            $(this).removeClass('bg-dark')
+                        })
+                    }
+                } else if (e.which == 3) {
+                    if (!$(this).hasClass('bg-dark')) {
+                        $(this).children('i').toggleClass('d-none')
+                    }
+                    if (!$(this).children('i').hasClass('d-none')) {
+                        $('#MIbody td').bind('mousemove', function () {
+                            if (!$(this).hasClass('bg-dark')) {
+                                $(this).children('i').removeClass('d-none')
+                            }
+                        })
+                    } else {
+                        $('#MIbody td').bind('mousemove', function () {
+                            $(this).children('i').addClass('d-none')
+                        })
+                    }
+                }
+            })
+            $('#IMdiv').mouseup(function () {
+                $('#MIbody td').unbind('mousemove')
+                for (var i in initArray) {
+                    if ($('#MIbody td').eq(i).hasClass('bg-dark')) {
+                        initArray[i] = 1
+                    } else {
+                        initArray[i] = 0
+                    }
+                }
+                var initColTh = ColThAnswer(initArray, col, row)
+                var initRowTh = RowThAnswer(initArray, col, row)
+                var ColPass = 0
+                var RowPass = 0
+                for (i = 0; i < initColTh.length; i++) {
+                    if (JSON.stringify(initColTh[i]) == JSON.stringify(colThAnswer[i])) {
+                        $('#MIhead tr').children('th').eq(i + 1).addClass('bg-secondary')
+                        ColPass++
+                    } else {
+                        $('#MIhead tr').children('th').eq(i + 1).removeClass('bg-secondary')
+                        ColPass = 0
+                    }
+                }
+                for (i = 0; i < initRowTh.length; i++) {
+                    if (JSON.stringify(initRowTh[i]) == JSON.stringify(rowThAnswer[i])) {
+                        $('#MIbody tr').eq(i).children('th').addClass('bg-secondary')
+                        RowPass++
+                    } else {
+                        $('#MIbody tr').eq(i).children('th').removeClass('bg-secondary')
+                        RowPass = 0
+                    }
+                }
+                if (ColPass == initColTh.length && RowPass == initRowTh.length) {
+                    $('#modal-pass').modal('show')
+                    clearInterval(TimeInterval)
+                    $('#spendTimes').html($('#stopwatch').html())
+                    console.log("pass")
+                }
+                // if(rememberArray.length>5){
+                //     rememberArray.shift()
+                //     rememberArray.push(initArray)
+                // }else if(rememberArray.length<5){
+                //     rememberArray.push(initArray)
+                // }
+                rememberArray.push(initArray)
+                console.log(rememberArray)
+            })
+
+        }
+
+
+    </script>
+</body>
+
+</html>
